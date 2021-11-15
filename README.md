@@ -1,6 +1,8 @@
-# This is Python API for pyagxrobots
+# This is Python API for Agilex Robotics Mobile base
 
-###### This is a python API for Can communication with pyagxrobots and controlling it.
+###### This is a python API for Can communication with Agilex Robotics Mobile base and controlling it.
+
+### Support product list
 
 ### Installation
 
