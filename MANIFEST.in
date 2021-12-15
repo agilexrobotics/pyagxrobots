@@ -9,8 +9,5 @@ include LICENSE.txt
 # Include setup.py
 include setup.py
 
-# Include setup.py
-include scripts/*.bash
-
-include src/pyagxrobots/*.md
+include pyagxrobots/*.md
 

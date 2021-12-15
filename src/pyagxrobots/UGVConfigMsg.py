@@ -7,7 +7,6 @@ def _init():
     _global_dict = {}
 
 
-
 def SetValue(name, value):
     _global_dict[name] = value
 
@@ -200,7 +199,7 @@ def SetMotor1Temp(motor1_temp):
     SetValue('motor1_temp', motor1_temp)
 
 
-def GetMotorTemp():
+def GetMotor1Temp():
     return GetValue('motor1_temp')
 
 
@@ -248,7 +247,7 @@ def SetDriver3Voltage(driver3_voltage):
     SetValue('driver3_voltage', driver3_voltage)
 
 
-def GetDriverVoltage():
+def GetDriver3Voltage():
     return GetValue('driver3_voltage')
 
 
@@ -264,7 +263,7 @@ def SetMotor3Temp(motor3_temp):
     SetValue('motor3_temp', motor3_temp)
 
 
-def GetMotorTemp():
+def GetMotor3Temp():
     return GetValue('motor3_temp')
 
 
@@ -408,7 +407,7 @@ def SetStickRightV(stick_right_v):
     SetValue('stick_right_v', stick_right_v)
 
 
-def GetStickRightv():
+def GetStickRightV():
     return GetValue('stick_right_v')
 
 
@@ -444,10 +443,19 @@ def GetVarA():
     return GetValue('var_a')
 
 
-class CanMsgLen(object):
-    CAN_MSG_LEN=53
+def SetBaseNeutral(base_neutral):
+    SetValue('base_neutral', base_neutral)
 
-class CanID(object):
+
+def GetBaseNeutral():
+    return GetValue('base_neutral')
+
+
+class CanMsgLen(object):
+    CAN_MSG_LEN = 53
+
+
+class CanIDV2(object):
     # // control group: 0x1
     MOTION_COMMAND_ID = 0X111
     LIGHT_COMMAND_ID = 0X121
@@ -501,3 +509,23 @@ class CanID(object):
     STEER_NEUTRAL_REQUEST_ID = 0X431
     STEER_NEUTRAL_RESPONSE_ID = 0X43A
     STATE_RESET_CONFIG_ID = 0X441
+
+
+class CanIDV1(object):
+    # CAN: control group
+
+    MOTION_COMMAND_ID = 0x130
+    LIGHT_COMMAND_ID = 0x140
+    VALUE_SET_COMMAND_ID = 0x210
+
+    # CAN: state feedback group
+    MOTION_STATE_ID = 0x131
+    LIGHT_STATE_ID = 0x141
+    SYSTEM_STATE_ID = 0x151
+
+    VALUE_SET_STATE_ID = 0x211
+
+    ACTUATOR1_STATE_ID = 0x200
+    ACTUATOR2_STATE_ID = 0x201
+    ACTUATOR3_STATE_ID = 0x202
+    ACTUATOR4_STATE_ID = 0x203

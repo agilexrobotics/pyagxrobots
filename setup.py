@@ -5,15 +5,15 @@ with open('README.md', 'r', encoding='utf-8') as fh:
 
 setup(
     name='pyagxrobots',
-    version='0.5.6',
+    version='0.8.4',
     author='agilexrobotics',
     author_email='support@agilex.ai',
-    description='A small example package',
+    description='A small example package for agxrobots',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/agilexrobotics',
+    url='https://github.com/agilexrobotics/',
     project_urls={
-        'Bug Tracker': 'https://github.com/westonrobot/ugv_sdk/issues',
+        'Bug Tracker': 'https://github.com/agilexrobotics/',
     },
     classifiers=[
         'Programming Language :: Python :: 3.6',

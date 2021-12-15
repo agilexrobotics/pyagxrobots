@@ -1,28 +1,43 @@
-# This is Python API for Agilex Robotics Mobile base
+# This is Python API for Agilex Robotics
 
-###### This is a python API for Can communication with Agilex Robotics Mobile base and controlling it.
-
-### Support product list
+###### This is a python API for CAN communication with Agilex Robotics
 
 ### Installation
 
 ##### Notes:
 
-###### Make sure that python version >=3.6. if you have python3 and python2 ,please use python3
+###### Make sure that python version >=3.4. if you have python3 and python2 ,please use python3
+
+**Communication protocol**
+
+|   Robot    | Protocol V2 | CAN  | Support Status |
+| :--------: | :---------: | :--: | :------------: |
+| Scout 2.0  |      Y      |  Y   |     Active     |
+| Scout Mini |      Y      |  Y   |     Active     |
+| Hunter 2.0 |      Y      |  Y   |     Active     |
+|   Bunker   |      Y      |  Y   |     Active     |
+|   Tracer   |      Y      |  Y   |     Active     |
 
 #### pip
 
 ````bash
-pip3 install pyagxrobots
+$ pip3 install pyagxrobots
 ````
 
 ##### Notes:
 
 ###### Make sure that pip3 version >= 9.0.0. 
 
+###### cheak the pip3 version
+
 ```bash
-pip3 -V     																				 #cheak the pip3 version
-python3 -m pip install --upgrade pip                          #updata pip3
+$ pip3 -V     		
+```
+
+###### updata pip3
+
+```bash
+$ python3 -m pip install --upgrade pip                 
 ```
 
 ### Setup CAN-To-USB adapter
@@ -60,128 +75,122 @@ python3 -m pip install --upgrade pip                          #updata pip3
    $ cansend can0 001#1122334455667788
    ```
 
-You can run  1-5 for the first-time setup and run 2 to bring up the device each time you  unplug and re-plug the adapter.
+You can run  step 1-5 or "./setup_can2usb.bash"  for the first-time setup and run step 2 or"./bringup_can2usb.bash"  to bring up the device each time you  unplug and re-plug the adapter.
 
 ### import to your project
 
 ```python
 #!/usr/bin/env python3
 # coding=utf-8
-from pyagxrobots import agxrobots
-robots=agxrobots.UGV(bustype='socketcan', channel='can0', bitrate=500000) 
+import pyagxrobots
+robots=pyagxrobots.pysdkugv.robotstype()  #    robotstype depend on your robot
 ```
 
 #### function list:
 
 ```python
-EnableCANCtrl()
-SendVersionRequest()
-SendErrorClearByte()
-EnableLightCtrl()
-DisableLightCtrl()
-LightFrontMode()
-SendLinerVelocity()
-SendAngularVelocity()
-
-GetLightMode()        
-GetSysVersion()
-GetLeftWheelOdem()
-GetRightWheelOdem()
-GetLinerVelocity()
-GetAngularVelocity()
-GetErrorCode()
+EnableCAN()
+SetMotionCommand()
+SetLightCommand()
+GetRobotStae:
+    MotionCommandMessage:
+        GetLinearVelocity()
+        GetAngularVelocity()
+        GetLateralVelocity()
+        GetSteeringAngle()
+    LightCommandMessage:
+        GetLightCmdCtrl()
+        GetFrontMode()
+        GetFrontCustom()
+        GetRearMode()
+        GetRearCustom()
+    SystemStateMessage:
+        GetVehicleState()
+        GetControlMode()
+        GetBatteryVoltage()
+        GetErrorCode()
+    RcStateMessage:
+    OdometryMessage:
+        GetLeftWheel()
+        GetRightWheel()
+    ActuatorStateMessageV2:
+        rpm()
+        current()
+        pulse_count()
+        driver_voltage()
+        driver_temp()
+        motor_temp()
+        driver_state()
 ```
 
-#### EnableCANCtrl
+#### EnableCAN
 
-- **Prototype**: `EnableCANCtrl()`
-- **Description**:Enable Controller Area Network control.
+- **Prototype**: `EnableCAN()`
+- **Description**: Enable command and control mode.
 
-#### SendVersionRequest
+#### SetMotionCommand
 
-- **Prototype**: `SendVersionRequest()`
+- **Prototype**: `SetMotionCommand()`
 - **Description**:Send Version Request to robots.
-
-#### SendErrorClearByte
-
-- **Prototype**: `SendErrorClearByte(id)`
-- **Description**:Send Error Clear Byte to robots.
 - **Parameters**
-  - `id`:(int) 0-4    0:all  1~4 :clear motro 1~4
+  - `linear_vel`:(float) 
+  - `angular_vel`:(float)
+  - `lateral_velocity`:(float)
+  - `steering_angle`:(float)
 
-#### EnableLightCtrl
+#### GetLinearVelocity
 
-- **Prototype**: `EnableLightCtrl()`
-- **Description**:Enable Light control to robots.
-
-#### DisableLightCtrl
-
-- **Prototype**: `DisableLightCtrl()`
-- **Description**:Enable Light control to robots.
-
-#### LightFrontMode
-
-- **Prototype**: `LightFrontMode(mode,bright)`
-- **Description**:Send Error Clear Byte to robots.
-- **Parameters**
-  - `mode`:(int)0~3   0:often shut 1:normally open 2:breathing lamp  3:custom
-  - `bright`:(int) 0~100  Note: mode must be 3
-
-#### SendLinerVelocity
-
-- **Prototype**: `SendLinerVelocity(liner_velocity)`
-- **Description**:Send liner_velocity to robots.
-- **Parameters**
-  - `liner_velocity`:(float)-3.0~3.0 m/s
-
-#### SendAngularVelocity
-
-- **Prototype**: `SendAngularVelocity(angular_velocity)`
-- **Description**:Send angular_velocity to robots.
-- **Parameters**
-  - `angular_velocity`:(float)-2.523~2.523  rad/s
-
-#### GetLightMode
-
-- **Prototype**: `GetLightMode()`
-- **Description**:get robots light mode .
-- **Return**:light mode
-
-#### GetSysVersion
-
-- **Prototype**: `GetSysVersion()`
-- **Description**:get robots system version .
-- **Return**:ControlHardwareVersion,ActuarorHardwareVersion,ControlSoftwareVersion,GetActuarorSoftwareVersion
-
-#### GetLeftWheelOdem
-
-- **Prototype**: `GetLeftWheelOdem()`
-- **Description**:get robots LeftWheelOdem .
-- **Return**:LeftWheelOdem
-
-#### GetRightWheelOdem
-
-- **Prototype**: `GetRightWheelOdem()`
-- **Description**:get robots RightWheelOdem .
-- **Return**:RightWheelOdem
-
-#### GetLinerVelocity
-
-- **Prototype**: `GetLinerVelocity()`
-- **Description**:get robots liner_velocity .
-- **Return**:liner_velocity
+- **Prototype**: `GetLinearVelocity()`
+- **Description**:Get the linear velocity from robot
+- **Return**:linear velocity
 
 #### GetAngularVelocity
 
 - **Prototype**: `GetAngularVelocity()`
-- **Description**:get robots angular_velocity .
-- **Return**:angular_velocity
+- **Description**:Get the angular velocity from robot.
+- **Return**:angular velocity
+
+#### GetSteeringAngle
+
+- **Prototype**: `GetSteeringAngle()`
+- **Description**:Get the steering angle from robot .
+- **Return**:steering angle
+
+#### GetLateralVelocity
+
+- **Prototype**: `GetLateralVelocity()`
+- **Description**:Get the lateral velocity from robot .
+- **Return**:lateral velocity
+
+#### GetControlMode
+
+- **Prototype**: `GetControlMode()`
+- **Description**:Get the control mode from robot .
+- **Return**:control mode
+
+#### GetLeftWheelOdeom
+
+- **Prototype**: `GetLeftWheelOdeo()`
+- **Description**:get robots LeftWheelOdom .
+- **Return**:LeftWheelOdom
+
+#### GetRightWheelOdom
+
+- **Prototype**: `GetRightWheelOdom()`
+- **Description**:get robots RightWheelOdom .
+- **Return**:RightWheelOdeom
+
+#### GetBatteryVoltage
+
+- **Prototype**: `GetBatteryVoltage()`
+- **Description**:Get the battery voltage from robot
+- **Return**:battery voltage
 
 #### GetErrorCode
 
 - **Prototype**: `GetErrorCode()`
-- **Description**:get robots error_code  .
-- **Return**:error_code
+- **Description**:Get the error code from robot
+- **Return**:error code
 
 ### Example
 
@@ -189,37 +198,38 @@ GetErrorCode()
 
 ##### For safety, please ensure that the robot's wheels are off the ground
 
-#### 1.Open  Front Light
+#### 1.ScoutMini
 
 ```python
 #!/usr/bin/env python3
-# coding=utf-8
-from pyagxrobots import agxrobots
-robots=agxrobots.UGV(bustype='socketcan', channel='can0', bitrate=500000) 
-robots.EnableCANCtrl()
-robots.EnableLightCtrl()
-robots.LightFrontMode(1)
+# coding=UTF-8
+import pyagxrobots
+import time
+scoutmini=pyagxrobots.pysdkugv.ScoutMiniBase()
+scoutmini.EnableCAN()
+num=5
+while num>0:
+    
+    scoutmini.SetMotionCommand(linear_vel=0.1)
+    print(scoutmini.GetLinearVelocity())
+    time.sleep(0.3)
+    num-=1
 ```
 
-#### 2.Move Robot
+#### 2.Bunker
 
 ```python
 #!/usr/bin/env python3
-# coding=utf-8
-from pyagxrobots import agxrobots
-robots=agxrobots.UGV(bustype='socketcan', channel='can0', bitrate=500000) 
-robots.EnableCANCtrl()
-robots.SendLinerVelocity(0.2)
-```
-
-#### 3.get CAN message
-
-```python
-#!/usr/bin/env python3
-# coding=utf-8
-from pyagxrobots import agxrobots
-robots=agxrobots.UGV(bustype='socketcan', channel='can0', bitrate=500000) 
-robots.EnableCANCtrl()
-robots.GetAngularVelocity()
-robots.GetLinerVelocity()
+# coding=UTF-8
+import pyagxrobots
+import time
+bunker=pyagxrobots.pysdkugv.BunkerBase()
+bunker.EnableCAN()
+num=5
+while num>0:
+    
+    bunker.SetMotionCommand(linear_vel=0.1)
+    print(bunker.GetLinearVelocity())
+    time.sleep(0.3)
+    num-=1
 ```
